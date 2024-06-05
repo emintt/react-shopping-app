@@ -1,6 +1,6 @@
 import { Category } from "../../types/DBTypes";
 import CategoryItem from "../category-item/category-item.component";
-import './caategory-menu.styles.scss';
+import './category-menu.styles.scss';
 
 const CategoryMenu = ({ categories }: { categories: Category[] }) => {
   return (
