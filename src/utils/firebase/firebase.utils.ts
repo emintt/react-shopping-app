@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
-import { FirebaseError, initializeApp } from "firebase/app";
-import { getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, User } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, User, createUserWithEmailAndPassword } from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
@@ -34,7 +34,9 @@ export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googlePro
 export const db = getFirestore();
 
 // userAuth is sth signInWithGooglePopup return for example
-export const createUserDocumentFromAuth = async (userAuth: User) => {
+export const createUserDocumentFromAuth = async (userAuth: User, additionalInformation = {}) => {
+  if (!userAuth) return;
+
   // is there existing reference?. db: firebase db ref, users: collection, userAuth.uid: identifier: authentication user data uid
   const userDocRef = doc(db, 'users', userAuth.uid);
   console.log(userDocRef);
@@ -51,7 +53,8 @@ export const createUserDocumentFromAuth = async (userAuth: User) => {
       setDoc(userDocRef, {
         displayName,
         email,
-        createdAt
+        createdAt,
+        ...additionalInformation
       });
     } catch (error: FirebaseError | Error | unknown) {
       console.log('error creating user', error.message);
@@ -62,3 +65,11 @@ export const createUserDocumentFromAuth = async (userAuth: User) => {
 
 }; // user authentication object, store to firestore
 // google create userdocref although there is no collection there, so that the ref point to some unique point in db, so that it can use it to store data. getDoc to get the document related data
+
+
+// for email and password auth
+export const createAuthUserWithEmailAndPassword = async (email: string, password: string) => {
+  if (!email || !password) return;
+
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
