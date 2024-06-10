@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { FirebaseError, initializeApp } from "firebase/app";
-import { getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, UserCredential, User } from "firebase/auth";
+import { getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, User } from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
@@ -21,14 +21,15 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 // Use Google auth
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({
-  prompy: "select_account"
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
+  prompt: "select_account"
 });
 
 export const auth = getAuth();
 
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
 
 export const db = getFirestore();
 
