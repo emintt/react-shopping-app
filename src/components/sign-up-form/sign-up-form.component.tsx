@@ -15,7 +15,7 @@ const SignUpForm = () => {
   const [ formFields, setFormFields ] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
 
-  console.log(formFields);
+  // console.log(formFields);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -87,6 +87,7 @@ const SignUpForm = () => {
           label="Password"
           type="password"
           required
+          autoComplete="new-password"
           name="password"
           value={password} />
 
@@ -95,10 +96,11 @@ const SignUpForm = () => {
           label="Confirm Password"
           type="password"
           required
+          autoComplete="new-password"
           name="confirmPassword"
           value={confirmPassword} />
 
-        <Button buttonType="invert" type="submit">Sign Up</Button>
+        <Button buttonType="inverted" type="submit">Sign Up</Button>
       </form>
     </div>
   );

@@ -10,11 +10,11 @@ const BUTTON_TYPE_CLASSES = {
   inverted: 'inverted'
 };
 
-type ButtonProps = {children: any} & {buttonType: string} & ButtonHTMLAttributes<HTMLButtonElement>;
+type ButtonProps = {children: any} & {buttonType: 'google' | 'inverted'} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const Button : FC<ButtonProps> = ({ children, buttonType, ...otherProps }) => {
   return (
-    <button className={`button-container ${BUTTON_TYPE_CLASSES[buttonType]}`}>
+    <button className={`button-container ${BUTTON_TYPE_CLASSES[buttonType]}`} {...otherProps}>
       {children}
     </button>
   );
