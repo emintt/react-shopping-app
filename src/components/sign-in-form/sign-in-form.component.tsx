@@ -15,8 +15,6 @@ const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
-  const { setCurrentUser } = useContext(UserContext);
-
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   }
@@ -24,9 +22,6 @@ const SignInForm = () => {
   const signInWithGoogle = async () => {
     const { user } = await signInWithGooglePopup();
     console.log(user);
-
-    createUserDocumentFromAuth(user);
-
   };
 
 
@@ -36,7 +31,6 @@ const SignInForm = () => {
     try {
       const response = await signInAuthUserWithEmailAndPassword(email, password);
       console.log(response);
-      setCurrentUser(response.user);
       resetFormFields();
     } catch (error) {
       if (error.code ===  'auth/invalid-credential') {
