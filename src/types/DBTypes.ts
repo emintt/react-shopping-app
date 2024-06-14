@@ -4,4 +4,11 @@ type Category = {
   imageUrl: string;
 };
 
-export type { Category };
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  imageUrl: string;
+}
+
+export type { Category, Product };
