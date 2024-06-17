@@ -9,6 +9,8 @@ type Product = {
   name: string;
   price: number;
   imageUrl: string;
-}
+};
 
-export type { Category, Product };
+type CartProduct = Product & {quantity: number};
+
+export type { Category, Product, CartProduct };

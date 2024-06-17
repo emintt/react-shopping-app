@@ -15,11 +15,7 @@ const Navigation = () => {
     await signUserOut();
   };
 
-  const { isCartOpen, setIsCartOpen} = useContext(CartContext);
-
-  const handleClick = () => {
-    console.log('clik');
-  };
+  const { isCartOpen, setIsCartOpen, addItemToCart } = useContext(CartContext);
 
 
   return (
@@ -39,7 +35,7 @@ const Navigation = () => {
               SIGN IN
             </Link>
           }
-          <CartIcon onClick={handleClick} />
+          <CartIcon />
 
         </div>
         {isCartOpen && <CartDropDown />}
