@@ -15,7 +15,7 @@ const Navigation = () => {
     await signUserOut();
   };
 
-  const { isCartOpen, setIsCartOpen, addItemToCart } = useContext(CartContext);
+  const { isCartOpen } = useContext(CartContext);
 
 
   return (
