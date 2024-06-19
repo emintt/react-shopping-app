@@ -11,10 +11,10 @@ import {
   Auth,
   signOut,
   onAuthStateChanged,
-  NextOrObserver
  } from "firebase/auth";
 
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc, collection, writeBatch } from 'firebase/firestore';
+import { ProductCategories } from "../../types/DBTypes";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -44,6 +44,27 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
 
 export const db = getFirestore();
+
+
+// upload shop data to firestore db collection
+export const addCollectionAndDocuments = async (
+  collectionKey: string,
+  objectsToAdd: ProductCategories[]
+) => {
+  const batch = writeBatch(db); // batch istance to add data objects to collection by transaction
+  const collectionRef = collection(db, collectionKey);
+
+  objectsToAdd.forEach((object) => {
+    // get document reference
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    // create and attach object to collection as new docs,
+    // where the key is the title and the value is gthe object
+    batch.set(docRef, object);
+  });
+
+  await batch.commit();
+  console.log('done');
+};
 
 // userAuth is sth signInWithGooglePopup return for example
 export const createUserDocumentFromAuth = async (userAuth: User, additionalInformation = {}) => {

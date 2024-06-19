@@ -33,7 +33,7 @@ const Checkout = () => {
         );
       })
       }
-      <span className='total'>Total: {cartTotal ? cartTotal : 0}</span>
+      <span className='total'>Total: {cartTotal ? cartTotal : 0} €</span>
     </div>
   );
 };

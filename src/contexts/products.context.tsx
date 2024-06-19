@@ -1,6 +1,7 @@
-import { ReactNode, createContext, useState } from "react";
-import PRODUCTS from '../shop-data.json';
+import { ReactNode, createContext, useEffect, useState } from "react";
+import SHOP_DATA from '../shop-data';
 import { Product } from "../types/DBTypes";
+import { addCollectionAndDocuments } from "../utils/firebase/firebase.utils";
 
 type ProductsContextType = {
   products: Product[];
@@ -14,7 +15,11 @@ export const ProductsContext = createContext<ProductsContextType | null>({
 
 // actual component
 export const ProductsProvider = ({children} : {children: ReactNode}) => {
-  const [products, setProducts] = useState<Product[]>(PRODUCTS);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  // useEffect(() => {
+  //   addCollectionAndDocuments('categories', SHOP_DATA);
+  // }, []); // this is used only once to add shop data to firebase collection
   const value = { products };
 
 

@@ -11,6 +11,11 @@ type Product = {
   imageUrl: string;
 };
 
+type ProductCategories = {
+  title: string;
+  items: Product[];
+};
+
 type CartProduct = Product & {quantity: number};
 
-export type { Category, Product, CartProduct };
+export type { Category, Product, CartProduct, ProductCategories };
