@@ -1,29 +1,39 @@
 import { useContext } from 'react';
 import './checkout.styles.scss';
 import { CartContext } from '../../contexts/cart.context';
-import { CartProduct, Product } from '../../types/DBTypes';
+import { CartProduct } from '../../types/DBTypes';
+import CheckoutItem from '../../components/checkout-item/checkout-item.component';
 
 const Checkout = () => {
   const cartContext = useContext(CartContext);
   const cartItems = cartContext.cartItems as CartProduct[];
-  const { addItemToCart, removeCartItemFromCart } = cartContext;
-
+  const cartTotal = cartContext.cartTotal;
   return (
-    <div>
-      <h2>Check out page</h2>
+    <div className='checkout-container'>
+      <div className='checkout-header'>
+        <div className='header-block'>
+          <span>Product</span>
+        </div>
+        <div className='header-block'>
+          <span>Description</span>
+        </div>
+        <div className='header-block'>
+          <span>Quantity</span>
+        </div>
+        <div className='header-block'>
+          <span>Price</span>
+        </div>
+        <div className='header-block'>
+          <span>Remove</span>
+        </div>
+      </div>
       { cartItems && cartItems.map((item) => {
-        const { id, imageUrl, name, quantity } = item;
         return (
-          <div key={id}>
-            <h2>{name}</h2>
-            <img src={imageUrl} alt={name} />
-            <p><button className='less-than-icon' onClick={() => {removeCartItemFromCart(item)}}>&lt; &nbsp;</button>{quantity}<button className='greater-than-icon' onClick={() => {addItemToCart(item)}}>&nbsp; &gt;</button></p>
-            <p>{item.price}</p>
-            <button>X</button>
-          </div>
+          <CheckoutItem key={item.id} cartItem={item}/>
         );
       })
       }
+      <span className='total'>Total: {cartTotal ? cartTotal : 0}</span>
     </div>
   );
 };
