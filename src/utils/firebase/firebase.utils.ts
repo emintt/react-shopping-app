@@ -66,7 +66,7 @@ export const addCollectionAndDocuments = async (
   console.log('done');
 };
 
-export const getCategoriesAndDocuments = async () => {
+export const getCategoriesAndDocuments = async (): Promise<CategoryMap> => {
   const collectionRef = collection(db, 'categories');
 
   // generate query from collectionRef, return an object that can get snapshot from
@@ -80,7 +80,7 @@ export const getCategoriesAndDocuments = async () => {
     acc[title.toLowerCase() as keyof CategoryMap] = items;
     return acc;
   }, {});
-  console.log(categoryMap);
+  return categoryMap;
 };
 
 /*
