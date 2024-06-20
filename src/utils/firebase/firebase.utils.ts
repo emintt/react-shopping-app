@@ -13,8 +13,8 @@ import {
   onAuthStateChanged,
  } from "firebase/auth";
 
-import { getFirestore, doc, getDoc, setDoc, collection, writeBatch } from 'firebase/firestore';
-import { ProductCategories } from "../../types/DBTypes";
+import { getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs } from 'firebase/firestore';
+import { CategoryMap, Product, ProductCategories } from "../../types/DBTypes";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -65,6 +65,45 @@ export const addCollectionAndDocuments = async (
   await batch.commit();
   console.log('done');
 };
+
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, 'categories');
+
+  // generate query from collectionRef, return an object that can get snapshot from
+  const q = query(collectionRef);
+  // get snapshot of all document snapshots
+  const querySnapshot = await getDocs(q);
+  // querySnapshot.docs give back an array includes all invidual docs inside
+  // return the array to get the final object we want
+  const categoryMap = querySnapshot.docs.reduce((acc: CategoryMap, docSnapshot): CategoryMap => {
+    const { title, items } = docSnapshot.data();
+    acc[title.toLowerCase() as keyof CategoryMap] = items;
+    return acc;
+  }, {});
+  console.log(categoryMap);
+};
+
+/*
+The object we want
+{
+  hats: {
+    title: 'Hats',
+    items: [
+      {},
+      {}
+    ]
+  },
+  jackets: {
+    title: 'Jackets',
+    items: [
+      {},
+      {}
+    ]
+  }
+}
+
+*/
+
 
 // userAuth is sth signInWithGooglePopup return for example
 export const createUserDocumentFromAuth = async (userAuth: User, additionalInformation = {}) => {

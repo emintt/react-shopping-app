@@ -18,4 +18,8 @@ type ProductCategories = {
 
 type CartProduct = Product & {quantity: number};
 
-export type { Category, Product, CartProduct, ProductCategories };
+type CategoryMap = {
+  [key: string] : ProductCategories;
+}
+
+export type { Category, Product, CartProduct, ProductCategories, CategoryMap };

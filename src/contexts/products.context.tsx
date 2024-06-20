@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import SHOP_DATA from '../shop-data';
 import { Product } from "../types/DBTypes";
-import { addCollectionAndDocuments } from "../utils/firebase/firebase.utils";
+import { addCollectionAndDocuments, getCategoriesAndDocuments } from "../utils/firebase/firebase.utils";
 
 type ProductsContextType = {
   products: Product[];
@@ -17,9 +17,14 @@ export const ProductsContext = createContext<ProductsContextType | null>({
 export const ProductsProvider = ({children} : {children: ReactNode}) => {
   const [products, setProducts] = useState<Product[]>([]);
 
-  // useEffect(() => {
-  //   addCollectionAndDocuments('categories', SHOP_DATA);
-  // }, []); // this is used only once to add shop data to firebase collection
+  useEffect(() => {
+    const getCategoriesMap = async () => {
+      const productData = await getCategoriesAndDocuments();
+      console.log(productData);
+    };
+    getCategoriesMap();
+  }, []);
+
   const value = { products };
 
 
