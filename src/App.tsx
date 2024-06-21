@@ -15,7 +15,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Navigation />} >
           <Route index element={<Home />} /> {/* shorthand for index=true, stating that it matches the path '/', index route  */}
-          <Route path='shop' element={<Shop />} />
+          <Route path='shop/*' element={<Shop />} />  {/* /* means thatwe have route that set up for that component */}
           <Route path='auth' element={<Authentication />} />
           <Route path='checkout' element={<Checkout />} />
         </Route>
