@@ -5,6 +5,7 @@ import { CartContext } from '../../contexts/cart.context';
 import CartItem from '../cart-item/cart-item.component';
 import { CartProduct } from '../../types/DBTypes';
 import { useNavigate } from 'react-router-dom';
+import { BUTTON_TYPE_CLASSES } from '../button/button-class';
 
 const CartDropDown = () => {
   const cartContext  = useContext(CartContext);
@@ -22,7 +23,7 @@ const CartDropDown = () => {
             <CartItem key={item.id} cartItem={item}/>
           ))}
         </div>
-       <Button buttonType='inverted' onClick={goToCheckoutHandle} > Go to Checkout</Button>
+       <Button buttonType={BUTTON_TYPE_CLASSES.inverted} onClick={goToCheckoutHandle} > Go to Checkout</Button>
     </div>
   );
 };

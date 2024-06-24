@@ -1,9 +1,9 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
-import { createUserDocumentFromAuth, signInAuthUserWithEmailAndPassword, signInWithGooglePopup } from "../../utils/firebase/firebase.utils";
+import {  signInAuthUserWithEmailAndPassword, signInWithGooglePopup } from "../../utils/firebase/firebase.utils";
 import './sign-in-form.styles.scss';
-import { UserContext } from "../../contexts/user.context";
+import { BUTTON_TYPE_CLASSES } from "../button/button-class";
 
 
 const defaultFormFields = {
@@ -41,7 +41,7 @@ const SignInForm = () => {
     }
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     console.log('handle change');
     setFormFields({...formFields, [name]: value});
@@ -71,11 +71,9 @@ const SignInForm = () => {
           name="password"
           value={password} />
         <div className="buttons-container">
-          <Button buttonType="inverted" type="submit">Sign In</Button>
-          <Button onClick={signInWithGoogle} buttonType="google" type="button">Google Sign In</Button>
+          <Button buttonType={BUTTON_TYPE_CLASSES.inverted} type="submit">Sign In</Button>
+          <Button onClick={signInWithGoogle} buttonType={BUTTON_TYPE_CLASSES.google} type="button">Google Sign In</Button>
         </div>
-
-
       </form>
     </div>
 
