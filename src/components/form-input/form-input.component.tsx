@@ -1,17 +1,17 @@
 import { FC, InputHTMLAttributes } from "react";
-import './form-input.styles.scss';
+import { FormInputLabel, Group, Input } from "./form-input.styles";
 
 type FormInputProps = {label: string } &  InputHTMLAttributes<HTMLInputElement>;
 
 const FormInput: FC<FormInputProps> = ({ label, ...otherProps }) => {
   // spread out all atributes to otherProps (onChange, type, required, name, value)
   return (
-    <div className="group">
-      <input className="form-input" {...otherProps} />
+    <Group>
+      <Input {...otherProps} />
       {label && (
-        <label className={`${otherProps.value?.length ? 'shrink' : ''} form-input-label `}>{label}</label>
+        <FormInputLabel $shrink={otherProps.value ? 1 : 0}>{label}</FormInputLabel>
       )}
-    </div>
+    </Group>
   );
 };
 
