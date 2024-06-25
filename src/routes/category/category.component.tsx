@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
-import './category.styles.scss';
 import { useContext, useEffect, useState } from 'react';
 import { CategoriesContext } from '../../contexts/categories.context';
 import { Product } from '../../types/DBTypes';
 import ProductCard from '../../components/product-card/product-card.component';
+import { CategoryContainer, CategoryTitle } from './category.styles';
 
 const Category = () => {
   // access path value
@@ -17,13 +17,13 @@ const Category = () => {
 
   return (
     <>
-      <h2 className='category-title'>{category}</h2>
-      <div className="category-container">
+      <CategoryTitle>{category}</CategoryTitle>
+      <CategoryContainer>
         {
           products
             && products.map((product) => <ProductCard key={product.id} product={product} />)
         }
-      </div>
+      </CategoryContainer>
     </>
   );
 };

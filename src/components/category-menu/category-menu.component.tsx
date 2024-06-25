@@ -1,14 +1,14 @@
 import { Category } from "../../types/DBTypes";
 import CategoryItem from "../category-item/category-item.component";
-import './category-menu.styles.scss';
+import { Menu } from "./category-menu.styles";
 
 const CategoryMenu = ({ categories }: { categories: Category[] }) => {
   return (
-    <div className="category-menu">
+    <Menu>
         {categories.map((category) => (
           <CategoryItem key={category.id} category={category}/>
         ))}
-    </div>
+    </Menu>
   );
 };
 
