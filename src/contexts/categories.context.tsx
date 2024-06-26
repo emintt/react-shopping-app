@@ -25,7 +25,6 @@ export const CategoriesProvider = ({children} : {children: ReactNode}) => {
     getCategoriesMap();
   }, []);
 
-  console.log(categoriesMap);
   const value = { categoriesMap };
 
 

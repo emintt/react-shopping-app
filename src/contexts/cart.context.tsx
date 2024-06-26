@@ -40,7 +40,7 @@ const clearCartItem = (cartItems: CartProduct[], cartItemToClear: CartProduct) =
 };
 
 export const CartContext = createContext({
-  isCartOpen: true,
+  isCartOpen: false,
   setIsCartOpen: () => {},
   cartItems: [],
   addItemToCart: () => {},
@@ -51,7 +51,7 @@ export const CartContext = createContext({
 });
 
 export const CartProvider = ({children}: {children: React.ReactNode}) => {
-  const [isCartOpen, setIsCartOpen] = useState(true);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState<CartProduct[] | []>([]);
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
