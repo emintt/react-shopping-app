@@ -4,6 +4,7 @@ import FormInput from "../form-input/form-input.component";
 import {  signInAuthUserWithEmailAndPassword, signInWithGooglePopup } from "../../utils/firebase/firebase.utils";
 import { BUTTON_TYPE_CLASSES } from "../button/button-class";
 import { ButtonsContainer, SignInContainer } from "./sign-in-form.styles";
+import { FirebaseError } from "firebase/app";
 
 
 const defaultFormFields = {
@@ -33,7 +34,7 @@ const SignInForm = () => {
       console.log(response);
       resetFormFields();
     } catch (error) {
-      if (error.code ===  'auth/invalid-credential') {
+      if ((error as unknown as FirebaseError).code ===  'auth/invalid-credential') {
         alert('invalid email or password');
       } else {
         console.log('user login encountered an error', error);

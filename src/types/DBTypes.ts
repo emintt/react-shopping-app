@@ -2,7 +2,7 @@ type Category = {
   id: number;
   title: string;
   imageUrl: string;
-  route?: string;
+  route: string;
 };
 
 type Product = {

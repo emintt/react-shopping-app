@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { createUserDocumentFromAuth, onAuthStateChangedListener } from "../utils/firebase/firebase.utils";
 import { User } from "firebase/auth";
 
@@ -10,8 +10,8 @@ export const UserContext = createContext({
 
 
 // actual component
-export const UserProvider = ({children}) => {
-  const [currentUser, setCurrentUser] = useState(null);
+export const UserProvider = ({children} : {children: React.ReactNode}) => {
+  const [currentUser, setCurrentUser] = useState< User | null>(null);
   const value = { currentUser, setCurrentUser };
 
   useEffect(() => {

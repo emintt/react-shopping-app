@@ -1,7 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
-import SHOP_DATA from '../shop-data';
-import { CategoryMap, ProductCategories } from "../types/DBTypes";
-import { addCollectionAndDocuments, getCategoriesAndDocuments } from "../utils/firebase/firebase.utils";
+import { CategoryMap } from "../types/DBTypes";
+import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils";
 
 type ProductsContextType = {
   categoriesMap: CategoryMap;

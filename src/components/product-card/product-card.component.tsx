@@ -1,6 +1,5 @@
 import { useContext } from 'react';
-import { Product, CartProduct } from '../../types/DBTypes';
-import Button from '../button/button.component';
+import { Product } from '../../types/DBTypes';
 import { CartContext } from '../../contexts/cart.context';
 import { Footer, Image, ProductCardButton, ProductCardContainer } from './product-card.styles';
 

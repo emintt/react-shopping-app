@@ -1,4 +1,3 @@
-import { Category } from "../../types/DBTypes";
 import CategoryItem from "../category-item/category-item.component";
 import { Menu } from "./category-menu.styles";
 

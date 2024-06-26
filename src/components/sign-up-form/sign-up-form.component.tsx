@@ -3,6 +3,7 @@ import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 import { SignUpContainer } from "./sign-up-form-styles";
+import { FirebaseError } from "firebase/app";
 
 const defaultFormFields = {
   displayName: '',
@@ -43,7 +44,7 @@ const SignUpForm = () => {
       }
 
     } catch (error) {
-      if (error.code === 'auth/email-already-in-use') {
+      if ((error as unknown as FirebaseError).code === 'auth/email-already-in-use') {
         alert('can not create user, email already in used');
       } else {
         console.log('user creation encountered an error', error);
