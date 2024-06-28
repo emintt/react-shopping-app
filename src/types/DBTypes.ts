@@ -21,6 +21,16 @@ type CartProduct = Product & {quantity: number};
 
 type CategoryMap = {
   [key: string] : Product[];
-}
+};
 
-export type { Category, Product, CartProduct, ProductCategories, CategoryMap };
+type ProductsContextType = {
+  categoriesMap: CategoryMap;
+};
+
+export type {
+  Category,
+  Product,
+  CartProduct,
+  ProductCategories,
+  CategoryMap,
+  ProductsContextType };

@@ -1,18 +1,22 @@
 import { useParams } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import { CategoriesContext } from '../../contexts/categories.context';
+import { useEffect, useState } from 'react';
 import { Product } from '../../types/DBTypes';
 import ProductCard from '../../components/product-card/product-card.component';
 import { CategoryContainer, CategoryTitle } from './category.styles';
+import { useCategoriesContext } from '../../hooks/contextHooks';
 
 const Category = () => {
   // access path value
   const { category } = useParams();
-  const { categoriesMap } = useContext(CategoriesContext);
+
+  const { categoriesMap } = useCategoriesContext();
+
   const [products, setProducts] = useState<Product[] | null>(null);
 
   useEffect(() => {
-    setProducts(categoriesMap[category]);
+    if (category) {
+      setProducts(categoriesMap[category]);
+    }
   }, [category, categoriesMap]);
 
   return (

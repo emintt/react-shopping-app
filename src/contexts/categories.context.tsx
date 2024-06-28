@@ -1,10 +1,8 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { CategoryMap } from "../types/DBTypes";
+import { CategoryMap, ProductsContextType } from "../types/DBTypes";
 import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils";
 
-type ProductsContextType = {
-  categoriesMap: CategoryMap;
-};
+
 
 // as the actual value we want to access
 export const CategoriesContext = createContext<ProductsContextType | null>({
