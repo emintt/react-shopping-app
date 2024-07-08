@@ -6,7 +6,7 @@ type UserContextType = {
   currentUser: User | null | undefined;
 };
 
-// as the actual value you want to access
+// the actual value we want to access
 export const UserContext = createContext<UserContextType>({
   // setCurrentUser: (user: User) => null,
   currentUser: null,
