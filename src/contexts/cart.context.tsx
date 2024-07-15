@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useReducer } from "react";
 import { CartProduct, Product } from "../types/DBTypes";
 
 
@@ -39,19 +39,21 @@ const clearCartItem = (cartItems: CartProduct[], cartItemToClear: CartProduct) =
   return cartItems.filter((item) => item.id !== cartItemToClear.id);
 };
 
-export const CartContext = createContext({
-  isCartOpen: false,
-  setIsCartOpen: (isCartOpen : boolean) => {},
+export type CartContextType = {
+  isCartOpen: boolean,
+  setIsCartOpen: (isCartOpen: boolean) => void,
   cartItems: [],
-  addItemToCart: (product : Product) => {},
+  addItemToCart: (product : Product) => void,
   cartCount: 0,
-  removeCartItemFromCart: (cartItem : CartProduct) => {},
-  clearItemFromCart: (cartItem : CartProduct) => {},
+  removeCartItemFromCart: (cartItem : CartProduct) => void,
+  clearItemFromCart: (cartItem : CartProduct) => void,
   cartTotal: 0,
-});
+};
+
+export const CartContext = createContext<CartContextType | null>(null);
 
 const initialState: CartState = {
-  isCartOpen: true,
+  isCartOpen: false,
   cartItems: [],
   cartCount: 0,
   cartTotal: 0,
@@ -64,19 +66,25 @@ type CartState = {
   cartTotal: number,
 }
 
-type CartAction = {
+const CART_ACTION_TYPES = {
+  SET_IS_CART_OPEN: "SET_IS_CART_OPEN",
+  SET_CART_ITEMS: "SET_CART_ITEMS",
+}
+
+type CartAction =
+| {
   type: string;
   payload?: {
     cartItems: CartProduct[],
     cartCount: number,
     cartTotal: number,
-  };
+  }
+}
+| {
+  type: string;
+  payload?: boolean
 };
 
-const CART_ACTION_TYPES = {
-  TOGGLE_CART_OPEN: "TOGGLE_CART_OPEN",
-  SET_CART_ITEMS: "SET_CART_ITEMS",
-}
 
 const cartReducer = (state: typeof initialState, action: CartAction): CartState => {
   const { type, payload } = action;
@@ -84,10 +92,17 @@ const cartReducer = (state: typeof initialState, action: CartAction): CartState 
   // const payload = {cartItems, cartCount, cartTotal};
   switch (type) {
     case CART_ACTION_TYPES.SET_CART_ITEMS:
+      if (!payload || typeof(payload) === 'boolean') return state;
       return {
         ...state,
         ...payload
       };
+    case CART_ACTION_TYPES.SET_IS_CART_OPEN:
+      if (typeof(payload) === 'object' || typeof(payload) === 'undefined') return state;
+      return {
+        ...state,
+        isCartOpen: payload
+      }
     default:
       throw new Error(`Unhandled type ${type} in cartReducer`)
   }
@@ -135,16 +150,21 @@ export const CartProvider = ({children}: {children: React.ReactNode}) => {
   };
 
   const clearItemFromCart = (productToClear: CartProduct) => {
-    const newCartItems =clearCartItem(cartItems, productToClear);
+    const newCartItems = clearCartItem(cartItems, productToClear);
     updateCartItemsReducer(newCartItems);
   };
 
-
+  const setIsCartOpen = (bool: boolean) => {
+    dispatch({
+      type: CART_ACTION_TYPES.SET_IS_CART_OPEN,
+      payload: bool
+    });
+  };
 
 
   const value = {
     isCartOpen,
-    setIsCartOpen: ()=> {},
+    setIsCartOpen,
     addItemToCart,
     cartItems,
     cartCount,
