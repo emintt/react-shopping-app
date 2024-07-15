@@ -39,7 +39,7 @@ const clearCartItem = (cartItems: CartProduct[], cartItemToClear: CartProduct) =
   return cartItems.filter((item) => item.id !== cartItemToClear.id);
 };
 
-export type CartContextType = {
+type CartContextType = {
   isCartOpen: boolean,
   setIsCartOpen: (isCartOpen: boolean) => void,
   cartItems: [],
