@@ -1,4 +1,5 @@
 import { User } from 'firebase/auth';
+import { USER_ACTION_TYPES } from './user.types';
 
 type UserAction = {
   type: string;
@@ -9,9 +10,7 @@ type UserState = {
   currentUser: User | null | undefined;
 };
 
-const USER_ACTION_TYPES = {
-  SET_CURRENT_USER: 'SET_CURRENT_USER',
-}
+
 
 const initialState: UserState = {
   currentUser: null,
@@ -20,8 +19,7 @@ const initialState: UserState = {
 
 const userReducer = (state = initialState, action: UserAction): UserState => {
   const { type, payload } = action;
-  console.log(state);
-  console.log(action);
+
   switch (type) {
     case USER_ACTION_TYPES.SET_CURRENT_USER:
       return {
