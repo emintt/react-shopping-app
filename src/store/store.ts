@@ -14,4 +14,6 @@ const composedEnhancers = compose(applyMiddleware(...middleWares));
 // undefined: additional default states
 const store = createStore(rootReducer, undefined, composedEnhancers);
 
+export type RootState = ReturnType<typeof store.getState>
+
 export { store };
