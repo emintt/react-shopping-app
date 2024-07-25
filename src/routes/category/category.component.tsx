@@ -13,12 +13,15 @@ const Category = () => {
   const categoriesMap = useSelector(selectCategoriesMap);
 
   const [products, setProducts] = useState<Product[] | null>(null);
+  console.log('render category');
 
   useEffect(() => {
+    console.log('effect fired when calling set products');
     if (category && categoriesMap) {
       setProducts(categoriesMap[category]);
     }
   }, [category, categoriesMap]);
+
 
   return (
     <>

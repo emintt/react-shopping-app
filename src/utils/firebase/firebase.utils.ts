@@ -13,8 +13,8 @@ import {
   onAuthStateChanged,
  } from "firebase/auth";
 
-import { getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs } from 'firebase/firestore';
-import { CategoryMap, Product, ProductCategories } from "../../types/DBTypes";
+import { getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs, DocumentData } from 'firebase/firestore';
+import { CategoryMap, ProductCategories } from "../../types/DBTypes";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -66,7 +66,7 @@ export const addCollectionAndDocuments = async (
   console.log('done');
 };
 
-export const getCategoriesAndDocuments = async (): Promise<CategoryMap> => {
+export const getCategoriesAndDocuments = async (): Promise<DocumentData[]> => {
   const collectionRef = collection(db, 'categories');
 
   // generate query from collectionRef, return an object that can get snapshot from
@@ -75,12 +75,8 @@ export const getCategoriesAndDocuments = async (): Promise<CategoryMap> => {
   const querySnapshot = await getDocs(q);
   // querySnapshot.docs give back an array includes all invidual docs inside
   // return the array to get the final object we want
-  const categoryMap = querySnapshot.docs.reduce((acc: CategoryMap, docSnapshot): CategoryMap => {
-    const { title, items } = docSnapshot.data();
-    acc[title.toLowerCase() as keyof CategoryMap] = items;
-    return acc;
-  }, {});
-  return categoryMap;
+  // map out all docs to get all these docs
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 };
 
 /*

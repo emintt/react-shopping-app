@@ -1,17 +1,17 @@
-import { CategoryMap } from "../../types/DBTypes";
+import { ProductCategories } from "../../types/DBTypes";
 import { CATEGORIES_ACTION_TYPE } from "./categories.types";
 
 type CategoriesAction = {
   type: string,
-  payload?: CategoryMap
+  payload?: ProductCategories[]
 };
 
 type CategoriesState = {
-  categoriesMap: CategoryMap
+  categories: ProductCategories[]
 };
 
 const categoriesInitialState = {
-  categoriesMap: {},
+  categories: [],
 };
 
 const categoriesreducer = (
@@ -20,8 +20,8 @@ const categoriesreducer = (
 ) => {
   const { type, payload } = action
   switch (type) {
-    case CATEGORIES_ACTION_TYPE.SET_CATEGORIES_MAP:
-      return {...state, categoriesMap: payload};
+    case CATEGORIES_ACTION_TYPE.SET_CATEGORIES:
+      return {...state, categories: payload};
     default:
       return state;
   }

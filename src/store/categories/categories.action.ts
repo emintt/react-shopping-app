@@ -1,11 +1,11 @@
-import { CategoryMap } from "../../types/DBTypes";
+import { DocumentData } from "firebase/firestore";
 import { CATEGORIES_ACTION_TYPE } from "./categories.types";
 
-const setCategoriesMap = (categoriesMap: CategoryMap) => {
+const setCategories = (categoriesArray: DocumentData[]) => {
   return ({
-    type: CATEGORIES_ACTION_TYPE.SET_CATEGORIES_MAP,
-    payload: categoriesMap
+    type: CATEGORIES_ACTION_TYPE.SET_CATEGORIES,
+    payload: categoriesArray
   });
 };
 
-export { setCategoriesMap };
+export { setCategories };
