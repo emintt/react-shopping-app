@@ -11,6 +11,11 @@ const selectCartItems = createSelector(
   (cart) => cart.cartItems
 );
 
+const selectIsCartOpen = createSelector(
+  [selectCartReducer],
+  (cart) => cart.isCartOpen
+);
+
 const selectCartCount = createSelector(
   [selectCartItems],
   (cartItems) => cartItems.reduce(
@@ -26,4 +31,4 @@ const selectCartTotal = createSelector(
 );
 
 
-export { selectCartItems, selectCartCount, selectCartTotal};
+export { selectCartItems, selectIsCartOpen, selectCartCount, selectCartTotal};
