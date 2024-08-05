@@ -1,7 +1,9 @@
 // where states live, where receive and dispatch actions to redux
 import { compose, createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
-import { rootReducer } from './root-reducers';
+import { RootReducer, rootReducer } from './root-reducers';
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
 
 // mdware: create reusable middleware funtions: chained function
 
@@ -21,6 +23,14 @@ const loggerMiddleware = (store) => (next) => (action) => {
   console.log('newState', store.getState());
 };
 
+const persistConfig = {
+  key: 'root',
+  storage: storage,
+  blacklist: ['user'], // user reducer is not persisted
+};
+
+const persistedReducer = persistReducer<RootReducer>(persistConfig, rootReducer);
+
 
 // actions hit mdware before hit the reducers
 const middleWares = [loggerMiddleware];
@@ -31,8 +41,8 @@ const composedEnhancers = compose(applyMiddleware(...middleWares));
 
 // root-reducer to generate store
 // undefined: additional default states
-const store = createStore(rootReducer, undefined, composedEnhancers);
-
+const store = createStore(persistedReducer, undefined, composedEnhancers);
+const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>
 
-export { store };
+export { store, persistor };

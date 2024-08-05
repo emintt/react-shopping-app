@@ -14,17 +14,18 @@ const categoriesInitialState = {
   categories: [],
 };
 
-const categoriesreducer = (
+const categoriesReducer = (
   state: CategoriesState = categoriesInitialState,
   action: CategoriesAction | Record<string, never> = {},
-) => {
+) : CategoriesState => {
   const { type, payload } = action
   switch (type) {
     case CATEGORIES_ACTION_TYPE.SET_CATEGORIES:
+      if (!payload) return state;
       return {...state, categories: payload};
     default:
       return state;
   }
 };
 
-export { categoriesreducer };
+export { categoriesReducer };
