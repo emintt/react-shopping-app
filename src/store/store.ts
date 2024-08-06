@@ -4,24 +4,19 @@ import logger from 'redux-logger';
 import { RootReducer, rootReducer } from './root-reducers';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
+import loggerMiddleware from '../middleware/logger';
 
-// mdware: create reusable middleware funtions: chained function
 
-// func returns another func, which receive the next method
-const loggerMiddleware = (store) => (next) => (action) => {
-  if (!action.type) {
-    return next(action);
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
   }
-
-  console.log('type', action.type);
-  console.log('payload', action.payload);
-  console.log('currentState', store.getState());
-
-  // pass actions to all reducers
-  next(action);
-
-  console.log('newState', store.getState());
-};
+}
+const composeEnhancer =
+  (process.env.NODE_ENV !== 'production') &&
+    window &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__  ||
+  compose;
 
 const persistConfig = {
   key: 'root',
@@ -33,11 +28,13 @@ const persistedReducer = persistReducer<RootReducer>(persistConfig, rootReducer)
 
 
 // actions hit mdware before hit the reducers
-const middleWares = [loggerMiddleware];
+const middleWares = [process.env.NODE_ENV !== 'production' && logger].filter(
+  Boolean
+);
 
 // middlewares is sth like enhancer
 // compose: can pass multiple functions left to right
-const composedEnhancers = compose(applyMiddleware(...middleWares));
+const composedEnhancers = composeEnhancer(applyMiddleware(...middleWares));
 
 // root-reducer to generate store
 // undefined: additional default states
