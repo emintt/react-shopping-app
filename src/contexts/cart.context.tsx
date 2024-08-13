@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { CartProduct, Product } from "../types/DBTypes";
 
 const CART_ACTION_TYPES = {
@@ -54,26 +54,38 @@ const CartContext = createContext({
   cartItems: [],
   setCartItems: (product: Product) => {},
   addItemToCart: (product: Product) => {},
-  // cartCount: 0,
-  // cartTotal: 0,
+  removeCartItemFromCart: (product: Product) => {},
+  clearItemFromCart: (product: Product) => {},
+  cartCount: 0,
+  cartTotal: 0,
 });
 
 const CartProvider = ({children} : {children: React.ReactNode}) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState<CartProduct[]>([]);
+  const [cartCount, setCartCount] = useState(0);
+  const [cartTotal, setCartTotal] = useState(0);
+
+  useEffect(() => {
+    const totalCartItem = cartItems.reduce((total, currentCartItem) => total + currentCartItem.quantity, 0);
+    setCartCount(totalCartItem);
+  }, [cartItems]);
+
+  useEffect(() => {
+    const newCartTotal = cartItems.reduce((total, currentCartItem) => total + currentCartItem.price, 0);
+    setCartTotal(newCartTotal);
+  }, [cartItems]);
 
   const addItemToCart = (productToAdd: Product) => {
     setCartItems(addCartItem(cartItems, productToAdd));
   };
 
   const removeCartItemFromCart = (productToRemove: CartProduct) => {
-    const newCartItems = removeCartItem(cartItems, productToRemove);
-    return ({ type: CART_ACTION_TYPES.SET_CART_ITEMS, payload: newCartItems });
+    setCartItems(removeCartItem(cartItems, productToRemove));
   };
 
   const clearItemFromCart = (productToClear: CartProduct) => {
-    const newCartItems = clearCartItem(cartItems, productToClear);
-    return ({ type: CART_ACTION_TYPES.SET_CART_ITEMS, payload: newCartItems });
+    setCartItems(clearCartItem(cartItems, productToClear));
   };
 
   const value = {
@@ -83,7 +95,9 @@ const CartProvider = ({children} : {children: React.ReactNode}) => {
     setCartItems,
     addItemToCart,
     removeCartItemFromCart,
-    clearItemFromCart
+    clearItemFromCart,
+    cartCount,
+    cartTotal
   };
 
   return (
