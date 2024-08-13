@@ -6,13 +6,16 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { persistor, store } from './store/store.ts';
 import { PersistGate } from 'redux-persist/integration/react';
+import { CartProvider } from './contexts/cart.context.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store} >
       <PersistGate persistor={persistor} >
         <BrowserRouter>
+          <CartProvider>
               <App />
+          </CartProvider>
         </BrowserRouter>
       </PersistGate>
     </Provider>
