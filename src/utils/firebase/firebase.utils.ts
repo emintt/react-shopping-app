@@ -1,5 +1,6 @@
+import { FirebaseError, initializeApp } from 'firebase/app';
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+// import { initializeApp } from "firebase/app";
 import {
   getAuth,
   signInWithRedirect,
@@ -8,29 +9,29 @@ import {
   User,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  Auth,
   signOut,
   onAuthStateChanged,
+  NextOrObserver,
  } from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs, DocumentData } from 'firebase/firestore';
-import { CategoryMap, ProductCategories } from "../../types/DBTypes";
+import { ProductCategories } from "../../types/DBTypes";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
+// web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAvWqIMTzcQmqK-hH0ZpCQEwTkXthOBAQo",
-  authDomain: "shopping-db-5085c.firebaseapp.com",
-  projectId: "shopping-db-5085c",
-  storageBucket: "shopping-db-5085c.appspot.com",
-  messagingSenderId: "369896220187",
-  appId: "1:369896220187:web:229e46af34762678d5babe"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROTECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
-
+console.log(firebaseConfig);
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 // Use Google auth
 const googleProvider = new GoogleAuthProvider();
@@ -125,7 +126,11 @@ export const createUserDocumentFromAuth = async (userAuth: User, additionalInfor
         ...additionalInformation
       });
     } catch (error: FirebaseError | Error | unknown) {
-      console.log('error creating user', error.message);
+      if (error instanceof Error) {
+        console.log('error creating user', error.message);
+      } else {
+        console.log('error creating user', error);
+      }
     }
   }
 
@@ -152,7 +157,7 @@ export const signInAuthUserWithEmailAndPassword = async (email: string, password
 export const signUserOut = async () => signOut(auth);
 
 // return unsubscribe
-export const onAuthStateChangedListener = (callback) => {
+export const onAuthStateChangedListener = (callback: NextOrObserver<User>) => {
   // callback when the auth state change
   onAuthStateChanged(auth, callback);
 };

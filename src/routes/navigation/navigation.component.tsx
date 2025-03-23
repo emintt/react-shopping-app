@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import MainLogo from '../../assets/crown.svg';
 import './navigation.styles';
 import { signUserOut } from "../../utils/firebase/firebase.utils";
@@ -30,7 +30,8 @@ const Navigation = () => {
             SHOP
           </NavLink>
           {currentUser ?
-            <NavLink as='span' onClick={signOutHandler}>SIGN OUT</NavLink>
+            // <NavLink as='span' onClick={signOutHandler}>SIGN OUT</NavLink>
+            <span onClick={signOutHandler} style={{ cursor: 'pointer' }}>SIGN OUT</span>
           :
             <NavLink to="/auth" >
               SIGN IN

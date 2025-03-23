@@ -27,7 +27,7 @@ const SignInForm = () => {
 
 
   const handleSubmit = async (event: React.SyntheticEvent) => {
-    console.log('handle submit', formFields);
+    // console.log('handle submit', formFields);
     event.preventDefault();
     try {
       const response = await signInAuthUserWithEmailAndPassword(email, password);

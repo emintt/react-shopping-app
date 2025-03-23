@@ -1,12 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import { CartProduct, Product } from "../types/DBTypes";
 
-const CART_ACTION_TYPES = {
-  SET_IS_CART_OPEN: "cart/SET_IS_CART_OPEN",
-  SET_CART_ITEMS: "cart/SET_CART_ITEMS",
-  SET_CART_COUNT: "cart/SET_CART_COUNT",
-  SET_CART_TOTAL: "cart/SET_CART_TOTAL",
-}
+// const CART_ACTION_TYPES = {
+//   SET_IS_CART_OPEN: "cart/SET_IS_CART_OPEN",
+//   SET_CART_ITEMS: "cart/SET_CART_ITEMS",
+//   SET_CART_COUNT: "cart/SET_CART_COUNT",
+//   SET_CART_TOTAL: "cart/SET_CART_TOTAL",
+// }
 
 const addCartItem = (cartItems: CartProduct[], productToAdd: Product): CartProduct[] => {
   // find if cartItems contains productToAdd
@@ -46,16 +46,36 @@ const clearCartItem = (cartItems: CartProduct[], cartItemToClear: CartProduct) =
 };
 
 
+// const CartContext = createContext({
+//   isCartOpen: false,
+//   setIsCartOpen: (boolean: boolean) => {},
+//   cartItems: [],
+//   setCartItems: (product: Product) => {},
+//   addItemToCart: (product: Product) => {},
+//   removeCartItemFromCart: (product: Product) => {},
+//   clearItemFromCart: (product: Product) => {},
+//   cartCount: 0,
+//   cartTotal: 0,
+// });
 
-
-const CartContext = createContext({
+const CartContext = createContext<{
+  isCartOpen: boolean;
+  setIsCartOpen: (boolean: boolean) => void;
+  cartItems: CartProduct[];
+  setCartItems: (cartItems: CartProduct[]) => void;
+  addItemToCart: (product: Product) => void;
+  removeCartItemFromCart: (product: CartProduct) => void;
+  clearItemFromCart: (product: CartProduct) => void;
+  cartCount: number;
+  cartTotal: number;
+}>({
   isCartOpen: false,
-  setIsCartOpen: (boolean: boolean) => {},
+  setIsCartOpen: () => {},
   cartItems: [],
-  setCartItems: (product: Product) => {},
-  addItemToCart: (product: Product) => {},
-  removeCartItemFromCart: (product: Product) => {},
-  clearItemFromCart: (product: Product) => {},
+  setCartItems: () => {},
+  addItemToCart: () => {},
+  removeCartItemFromCart: () => {},
+  clearItemFromCart: () => {},
   cartCount: 0,
   cartTotal: 0,
 });
@@ -72,7 +92,9 @@ const CartProvider = ({children} : {children: React.ReactNode}) => {
   }, [cartItems]);
 
   useEffect(() => {
-    const newCartTotal = cartItems.reduce((total, currentCartItem) => total + currentCartItem.price, 0);
+    const newCartTotal = cartItems.reduce(
+      (total, currentCartItem) => total + currentCartItem.price * currentCartItem.quantity, 0
+    );
     setCartTotal(newCartTotal);
   }, [cartItems]);
 

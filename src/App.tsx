@@ -17,11 +17,13 @@ const App = () => {
   // it never changes
   const dispatch = useDispatch();
   useEffect(() => {
-    const unsubscribe = onAuthStateChangedListener((user: User) => {
+    const unsubscribe = onAuthStateChangedListener((user: User | null) => {
       if (user) {
         createUserDocumentFromAuth(user);
       }
-      dispatch(setCurrentUser(user));
+      if (user) {
+        dispatch(setCurrentUser(user));
+      }
     });
     return unsubscribe;
   }, []);
